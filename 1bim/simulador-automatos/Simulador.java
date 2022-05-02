@@ -28,8 +28,8 @@ public class Simulador {
     public static void main(String[] args) {
         String[] alfabeto = {};
         String[] estados = {};
-        String estadoInicial;
-        String estadoFinal;
+        String estadoInicial = "";
+        String estadoFinal = "";
         String[] automatosParaTestar = {};
         ArrayList<Transicao> matrizDeTransicoes = new ArrayList<Transicao>();
         
@@ -54,10 +54,10 @@ public class Simulador {
                             estados =  valor.split(" ");
                             break;
                         case "-i":
-                            estadoInicial = valor;
+                            estadoInicial = valor.trim();
                             break;
                         case "-f":
-                            estadoFinal = valor;
+                            estadoFinal = valor.trim();
                             break;
                         case "-t":
                             String[] str = valor.split(" "); 
@@ -80,23 +80,35 @@ public class Simulador {
             e.printStackTrace();
         }
 
+
         System.out.println("\n-----------------------------  definições do autômato -----------------------------\n");
             System.out.println("Alfabeto => " + toString(alfabeto));
             System.out.println("Estados => " + toString(estados));
+            System.out.println("Estado inicial => " + estadoInicial);
+            System.out.println("Estado final => " + estadoFinal);
             System.out.println("Matriz => " + matrizDeTransicoes.toString() + "\n");
     
         System.out.println("\n-----------------------------  rodando o autômato -----------------------------\n");
+        
 
         for (int i=0; i < automatosParaTestar.length; i++) {
             System.out.println("Simulando o automato => " + automatosParaTestar[i] + "\n");
 
             for(int j=0; j < automatosParaTestar[i].strip().length(); j++) {
                 String valorPassoAtual = automatosParaTestar[i].substring(j, j+1);
+                String estadoAtual = "";
                 System.out.println("\t" + valorPassoAtual);
-                    
+
+                for (Transicao transicao : matrizDeTransicoes) {
+                    // tratar o passo inicial
+                    if (i == 0 && transicao.getOrigem() == estadoInicial) {
+                        estadoAtual = transicao.getOrigem();
+                    } else if (true) {
+
+
+                    }
+                }
             }
-            
-            
         }
     }
 
