@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -29,13 +30,15 @@ public class Simulador {
         String[] estados = {};
         String estadoInicial;
         String estadoFinal;
-        String[] matriz;
-
-        Transicao[] matrizDeTransicoes = {};
+        String[] automatosParaTestar = {};
+        ArrayList<Transicao> matrizDeTransicoes = new ArrayList<Transicao>();
         
         try {
             File myObj = new File("./entrada.txt");
             Scanner myReader = new Scanner(myObj);
+
+            System.out.println("\n-----------------------------  leitura do arquivo -----------------------------\n");
+
 
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -57,22 +60,54 @@ public class Simulador {
                             estadoFinal = valor;
                             break;
                         case "-t":
-                            matriz =  valor.split(" ");
+                            String[] str = valor.split(" "); 
+                            Transicao novaTransicao = new Transicao(str[0], str[1], str[2]);
+                            matrizDeTransicoes.add(novaTransicao);
+                        break;
+                        case "-r":
+                            automatosParaTestar = valor.split(" ");
                         break;
                         default:
                             System.out.println("Linha sem significado para o programa> " + data);
                         }
                 }
             }
-            for (int i=0; i < alfabeto.length; i++) {
-                System.out.println("alfabeto> " + alfabeto[i]);
-            }
 
             myReader.close();
 
-          } catch (FileNotFoundException e) {
-                System.out.println("An error occurred.");
-                e.printStackTrace();
-          }
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        System.out.println("\n-----------------------------  definições do autômato -----------------------------\n");
+            System.out.println("Alfabeto => " + toString(alfabeto));
+            System.out.println("Estados => " + toString(estados));
+            System.out.println("Matriz => " + matrizDeTransicoes.toString() + "\n");
+    
+        System.out.println("\n-----------------------------  rodando o autômato -----------------------------\n");
+
+        for (int i=0; i < automatosParaTestar.length; i++) {
+            System.out.println("Simulando o automato => " + automatosParaTestar[i] + "\n");
+
+            for(int j=0; j < automatosParaTestar[i].strip().length(); j++) {
+                String valorPassoAtual = automatosParaTestar[i].substring(j, j+1);
+                System.out.println("\t" + valorPassoAtual);
+                    
+            }
+            
+            
+        }
+    }
+
+    public static String toString(String[] lista) {
+        String listaString = "[ ";
+        for (int i=0; i < lista.length; i++) {
+            listaString+= lista[i] + ", ";
+        }
+
+        listaString += "]";
+
+        return listaString;
     }
 }
